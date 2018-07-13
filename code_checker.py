@@ -2,7 +2,6 @@ import re
 import os
 import sys
 
-#file = open("fact.c", "r")
 def initialize(file_name):
 	global file_contents
 	file = open(file_name, "r")
