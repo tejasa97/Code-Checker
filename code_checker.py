@@ -8,14 +8,12 @@ def initialize(file_name):
 	file = open(file_name, "r")
 	spaces = ' ' * 8
 	file_contents = file.read()
-	#file_contents = re.sub('\t', spaces, file_contents)
 	file.close()
 	err_cnt = 0
 	print(" \n---------------- \n")
 	print(">>> Checking file '{}'...\n".format(f))
 
 def make_arrow(st):
-		#st = line[0:a]
 		st = re.sub(r'\S', ' ', st)
 		print(st + '^')
 
@@ -23,9 +21,10 @@ def indent_end_multiple_maxlength():
 	err_cnt = 0
 	lines = file_contents.split('\n')
 	i = 1
-	#print (lines)
+
 	for line in lines:
 		if line != '':
+
 			#Check for indent error		
 			if re.search(r'^\t*[^\s]', line) == None:
 				try:
