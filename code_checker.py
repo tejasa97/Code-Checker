@@ -39,9 +39,7 @@ def indent_end_multiple_maxlength():
 			if re.search(r'[^\t].*[\t].*', line):
 				print("** Interspersed tab found")
 				print(line)
-				#a = re.search(r'[^\t].*([\t]).*', line).group(1)
 				a = re.search(r'(?<=[^\t])([\t]).*[^\t]', line).start()
-				#print(a)
 				err_cnt += 1
 				make_arrow(line[0:a])
 
@@ -57,6 +55,7 @@ def indent_end_multiple_maxlength():
 			if(len(line) > 80):
 				err_cnt += 1
 				print("** Line {} exceeds length of 80 chars".format(i))
+				
 			#Check for multiple statements on a single line
 			if re.search(r'.+;.*;.*', line):
 				if not re.search(r'\(.+;.+\)', line):
