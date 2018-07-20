@@ -6,7 +6,7 @@ int main()
 {
 	int sum = 0, i = 2;
 
-	while (i < 100) {
+	while (i < 100){
 		sum = sum+i;
 		i = i + 3;
 	}

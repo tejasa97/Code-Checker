@@ -6,7 +6,8 @@
 int main()
 {
 	int sum = 0, i = 2;
-	for (i = 2; i < 100; i++) {
+	for (i = 2; i < 100; i++)
+	{
 		sum += i;
 		i += 2;
 	}

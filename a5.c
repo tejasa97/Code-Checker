@@ -6,7 +6,7 @@ int main()
 {
 	char ch;
 	printf("input a character: ");
-	scanf(" %c ", &ch);
+	scanf(" %c ", &ch); 
 	/*while( s[c]='\0')
 	  ch=s[c];*/
 	if (ch >= 'A' && ch <= 'Z')

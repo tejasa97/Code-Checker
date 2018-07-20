@@ -3,7 +3,7 @@
 
 int main()
 {
-	int sum =	0;
+	int sum = 0;
 	int i = 0;
 
 	for (i = 2; i < 100; i++) {
@@ -11,6 +11,5 @@ int main()
 		i = i + 2;
 	}
 
-	printf("The sum is : %d", sum); 
-	
+	printf("The sum is : %d", sum);
 }
