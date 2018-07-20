@@ -1,6 +1,6 @@
 import sys
 import re
-# import crayons
+import crayons
 import os
 
 
@@ -16,7 +16,7 @@ def initialize(file_name):
 			lines_raw.append(line.rstrip('\n'))
 	no_of_lines_raw = len(lines_raw)
 	print(" \n---------------- \n")
-	# print(crayons.yellow(">>> Checking file '{}'...\n".format(file_name), bold = True))
+	print(crayons.yellow(">>> Checking file '{}'...\n".format(file_name), bold = True))
 	print(">>> Checking file '{}'...\n".format(file_name))
 
 def comment_detected(index):
@@ -325,8 +325,8 @@ def functions_():
 def make_arrow(st):
 		#Print required line with a marker
 		st = re.sub(r'\S', ' ', st)
-		# print(crayons.green(st + '^', bold = True))
-		print(st + '^')
+		print(crayons.green(st + '^', bold = True))
+		#print(st + '^')
 def match_paranthesis(i, c, clause = None):
 	incoming = i - c
 
@@ -369,15 +369,14 @@ def match_paranthesis(i, c, clause = None):
 	return lines_l
 
 def print_err(error, color = 'red'):
-	# blue = re.search(r'(line \d+)', error)
-	# if blue:
-	# 	number = blue.group(1)
-	# 	error = error.split(number)
-	# 	print(getattr(crayons, color)(error[0], bold = True) + crayons.green(number, bold = True) + getattr(crayons, color)(error[1], bold = True))
+	blue = re.search(r'(line \d+)', error)
+	if blue:
+		number = blue.group(1)
+		error = error.split(number)
+		print(getattr(crayons, color)(error[0], bold = True) + crayons.green(number, bold = True) + getattr(crayons, color)(error[1], bold = True))
 
-	# else:
-	# 	print(getattr(crayons, color)(error, bold = True))
-	print(error)
+	else:
+		print(getattr(crayons, color)(error, bold = True))
 
 
 """ END OF MISCALLANEOUS """
