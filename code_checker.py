@@ -21,8 +21,10 @@ def initialize(file_name):
 def comment_detected(index):
 	if re.search(r'^\s*\/\*', lines_raw[index]):
 		return 2
-	elif re.search(r'^\s*\/\/', lines_raw[index]):
+
+	elif re.search(r'([^:]|^)\/\/.*$', lines_raw[index]):
 		return 1
+
 	else:
 		return 0
 
@@ -30,6 +32,10 @@ def comments_skip(index):
 	for i in range(index, no_of_lines_raw):
  		if re.search(r'[*][/]', lines_raw[i]):
  			return i+1
+
+def line_append(string, i):
+	lines.append(string)
+	index_lines.append(i)
 
 def pre_process():
 	global lines, index_lines, no_of_lines
@@ -40,15 +46,19 @@ def pre_process():
 		a = comment_detected(i)
 		if a == 2:
 			i = comments_skip(i)
-			lines.append(lines_raw[i])
-			index_lines.append(i)
+			if lines_raw[i] != '':
+				line_append(lines_raw[i], i)
 
-		elif a == 1 or lines_raw[i] == '':
+		elif a == 1 :
+			string = re.sub(r'([^:]|^)\/\/.*$', '', lines_raw[i])
+			if re.search(r'[\S]', string):
+				line_append(string, i)
+
+		elif lines_raw[i] == '':
 			pass
 
 		else:
-			lines.append(lines_raw[i])
-			index_lines.append(i)
+			line_append(lines_raw[i], i)
 		i = i + 1
 		
 	no_of_lines = len(lines)
