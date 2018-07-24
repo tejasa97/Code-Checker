@@ -17,13 +17,14 @@ def initialize(file_name):
 	no_of_lines_raw = len(lines_raw)
 	print(" \n---------------- \n")
 	print(crayons.yellow(">>> Checking file '{}'...\n".format(file_name), bold = True))
-	print(">>> Checking file '{}'...\n".format(file_name))
 
 def comment_detected(index):
 	if re.search(r'^\s*\/\*', lines_raw[index]):
 		return 2
-	elif re.search(r'^\s*\/\/', lines_raw[index]):
+
+	elif re.search(r'([^:]|^)\/\/.*$', lines_raw[index]):
 		return 1
+
 	else:
 		return 0
 
@@ -31,6 +32,10 @@ def comments_skip(index):
 	for i in range(index, no_of_lines_raw):
  		if re.search(r'[*][/]', lines_raw[i]):
  			return i+1
+
+def line_append(string, i):
+	lines.append(string)
+	index_lines.append(i)
 
 def pre_process():
 	global lines, index_lines, no_of_lines
@@ -41,15 +46,19 @@ def pre_process():
 		a = comment_detected(i)
 		if a == 2:
 			i = comments_skip(i)
-			lines.append(lines_raw[i])
-			index_lines.append(i)
+			if lines_raw[i] != '':
+				line_append(lines_raw[i], i)
 
-		elif a == 1 or lines_raw[i] == '':
+		elif a == 1 :
+			string = re.sub(r'([^:]|^)\/\/.*$', '', lines_raw[i])
+			if re.search(r'[\S]', string):
+				line_append(string, i)
+
+		elif lines_raw[i] == '':
 			pass
 
 		else:
-			lines.append(lines_raw[i])
-			index_lines.append(i)
+			line_append(lines_raw[i], i)
 		i = i + 1
 		
 	no_of_lines = len(lines)
@@ -255,6 +264,8 @@ def cond_loop_search():
 	_for = r"^\s*for\s*\([^;]*;[^;]*;[^;]*\)"
 	_while = r"^\s*while\s*\(.+\)"
 	_do = r"^\s*do\s*"
+	_switch = r'^\s*switch\s*\(.+\)'
+
 	i = 0
 	while i < no_of_lines:
 
@@ -270,6 +281,9 @@ def cond_loop_search():
 
 		elif re.search(_do, lines[i]):
 			if_for_while(i, 'do')
+
+		elif re.search(_switch, lines[i]):
+			switch_(i)
 
 		i = i + 1
 
@@ -317,16 +331,40 @@ def functions_():
 """ END FUNCTIONS RELATED """
 
 
+""" SWITCH STATEMENT """
+
+def switch_(i):
+	#Check if opening brace
+	if re.search(r'({)$', lines[i]):
+		pass
+
+
+""" SWITCH STATEMENT """
+
+
+""" VARIABLES """
+
+def variables():
+	if re.search(r' '):
+		pass
+
+""" VARIABLES """
+
 """ MISCELLANEOUS """
 
-# def line_no(number):
-# 	return str(crayons.cyan(number))
+def indent_code():
+	global indent_ 
+	indent_ = []
+	for i in range(no_of_lines):
+		spaces = re.search(r'\t*', lines[i])
+		indent_.append(spaces.span()[1] - spaces.span()[0])
+	print(indent_[:10])
 
 def make_arrow(st):
 		#Print required line with a marker
 		st = re.sub(r'\S', ' ', st)
 		print(crayons.green(st + '^', bold = True))
-		#print(st + '^')
+		
 def match_paranthesis(i, c, clause = None):
 	incoming = i - c
 
@@ -409,6 +447,7 @@ if __name__ == "__main__":
 			indent_end_multiple_maxlength()
 			if indent_flag == 1:
 				continue
+			indent_code()
 			cond_loop_search()
 			else_search()
 			functions_()
