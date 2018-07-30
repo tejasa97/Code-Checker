@@ -6,6 +6,7 @@ import os
 
 """ PRE-PROCESSING OF FILE """
 
+
 def initialize(file_name):
 	global lines_raw, lines, err_cnt, indent, no_of_lines_raw
 	err_cnt = 0
@@ -68,6 +69,7 @@ def pre_process():
 
 
 """ LEADING AND TRAILING WHITESPACES, MAX LENGTH, MULITPLE STATEMENTS """
+
 
 def indent_end_multiple_maxlength():
 	global indent_flag
@@ -185,7 +187,6 @@ def if_for_while_do(i, clause):
 				print(lines[i+1])
 				make_arrow(lines[i+1][0:b])
 				err_cnt += 1
-				
 
 def else_(i, clause):
 	global err_cnt
@@ -307,7 +308,9 @@ def else_search():
 
 """ END 'IF' STATEMENT RELATED """
 
+
 """ 'SWITCH' STATEMENT RELATED """
+
 
 def switch_(i):
 
@@ -365,10 +368,12 @@ def switch_(i):
 
 		i += 1
 
+
 """  END OF 'SWITCH' STATEMENT """
 
 
 """ FUNCTIONS RELATED """
+
 
 def functions_():
 	func_ = r'^(\w+[*]*\s+){1,}\w+(\s)?\(.+\)[^;]'
@@ -393,6 +398,7 @@ def functions_():
 
 
 """ MISCELLANEOUS """
+
 
 def indent_code():
 	global indent_ 
@@ -459,6 +465,7 @@ def print_err(error, color = 'red'):
 
 
 """ END OF MISCALLANEOUS """
+
 
 """ MAIN FUNCTION """
 
