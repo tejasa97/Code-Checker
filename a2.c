@@ -5,7 +5,7 @@
 long factorial(int x)
 {
 	int f = 1, i;
-	for (i = x; i >= 1; i--) 
+	for (i = x; i >= 1; i--)
 		f *= i;
 	return f;
 }

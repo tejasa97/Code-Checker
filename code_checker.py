@@ -129,8 +129,9 @@ def indent_end_multiple_maxlength():
 """ 'IF' STATEMENT RELATED """
 
 	
-def if_for_while(i, clause):
+def if_for_while_do(i, clause):
 	global err_cnt
+
 	#Store index of line
 	incoming = i
 	b = r"\s*if\s*\(.+\)" if clause == 'if' else r'\s*for\s*\([^;]*;[^;]*;[^;]*\)' if clause == 'for' else r'\s*while\s*\(.+\)' if clause == 'while' else 0
@@ -153,7 +154,7 @@ def if_for_while(i, clause):
 
 	#Check if statement has '{' trailing on IF statement line
 	if re.search(r'({)$', lines[i]):
-		searcher = r".*if([^\s]|[\s]{2,})?.+\)([^\s]|[\s]{2,})?" if clause == 'if' else r".*for([^\s]|[\s]{2,})?.+\)([^\s]|[\s]{2,})?" if clause == 'for' else r".*while([^\s]|[\s]{2,})?.+\)([^\s]|[\s]{2,})?" if clause == 'while' else r".*do([^\s]|[\s]{2,})?" if clause == 'do' else 0
+		searcher = r".*if([^\s]|[\s]{2,})?.+\)([^\s]|[\s]{2,})?" if clause == 'if' else r".*for([^\s]|[\s]{2,})?.+\)([^\s]|[\s]{2,})?" if clause == 'for' else r".*while([^\s]|[\s]{2,})?.+\)([^\s]|[\s]{2,})?" if clause == 'while' else r".*do([^\s]|[\s]{2,})?" if clause == 'do' else r'.*switch([^\s]|[\s]{2,})?.+\)([^\s]|[\s]{2,})?' if clause == 'switch' else 0
 		match = re.search(searcher, lines[i])
 		if len(match.groups()) > 0:
 			for j in range(1, len(match.groups()) + 1):
@@ -173,7 +174,7 @@ def if_for_while(i, clause):
 	#Check if statement has '{' trailing on line after IF statement	
 	elif re.search(r'\s*({)\s*', lines[i+1]):
 			print_err("** Opening brace \'{{\' should be after '{}' clause on line {}".format(clause, (index_lines[i] + 1)))
-			searcher = r'.*if\s*\(.+(\))' if clause == 'if' else r'.*for\s*\(.+(\))' if clause == 'for' else r'.*while\s*\(.+(\))' if clause == 'while' else r'\s*do(\s*)'
+			searcher = r'.*if\s*\(.+(\))' if clause == 'if' else r'.*for\s*\(.+(\))' if clause == 'for' else r'.*while\s*\(.+(\))' if clause == 'while' else r'\s*do(\s*)' if clause == 'do' else r'.*switch\s*\(.+(\))' if clause == 'switch' else 0
 			a = re.search(searcher, lines[i]).start(1)
 			print(lines[i])
 			make_arrow(lines[i][:a])
@@ -184,7 +185,7 @@ def if_for_while(i, clause):
 				print(lines[i+1])
 				make_arrow(lines[i+1][0:b])
 				err_cnt += 1
-
+				
 
 def else_(i, clause):
 	global err_cnt
@@ -271,16 +272,16 @@ def cond_loop_search():
 
 		#Look for if statements
 		if re.search(_if, lines[i]):
-			if_for_while(i, 'if')
+			if_for_while_do(i, 'if')
 
 		elif re.search(_for, lines[i]):
-			if_for_while(i, 'for')
+			if_for_while_do(i, 'for')
 
 		elif re.search(_while, lines[i]):
-			if_for_while(i, 'while')
+			if_for_while_do(i, 'while')
 
 		elif re.search(_do, lines[i]):
-			if_for_while(i, 'do')
+			if_for_while_do(i, 'do')
 
 		elif re.search(_switch, lines[i]):
 			switch_(i)
@@ -305,6 +306,66 @@ def else_search():
 
 
 """ END 'IF' STATEMENT RELATED """
+
+""" 'SWITCH' STATEMENT RELATED """
+
+def switch_(i):
+
+	#Check for opening brace condition and indent errors of switch
+	if_for_while_do(i, 'switch')
+	start = i
+	got_break = 0
+	end =match_paranthesis(i, 0) + start
+	i += 1
+
+	while  i <= end:
+		a = re.search(r'(^\t{' + str(indent_[start]) + '})?case([^\s]|[\s]{2,})?(\(.+\)|.+)', lines[i])
+		b = re.search(r'(\s+)?:', lines[i])
+		c = re.search(r'default(\s+)?:', lines[i])
+
+		#Case statement detected
+		if a and b:
+			
+			#If no proper indentation at beginning at 'case' statement
+			if a.group(1) == None:
+				print_err("** Indent error of 'case' statement on line {}".format(index_lines[i] + 1))
+				print(lines[i])
+				make_arrow(lines[i][0])
+			if a.group(2):
+				print_err("** Indent error of 'case' statement on line {}".format(index_lines[i] + 1))
+				print(lines[i])
+				make_arrow(lines[i][:a.start(2)])
+			if b.group(1):
+				print_err("** Indent error of 'case' statement on line {}".format(index_lines[i] + 1))
+				print(lines[i])
+				make_arrow(lines[i][:b.start(1)])
+
+		#Else if 'default' clause found
+		elif c:
+			default_ = i
+
+			#Check for proper indentation of 'default' clause
+			if c.group(1):
+				print_err("** Indent error of 'default' clause on line {}".format(index_lines[i] + 1))
+				print(lines[i])
+				make_arrow(lines[i][:c.start(1)])
+
+			while i <= end:
+				if re.search(r'break\s*;', lines[i]):
+					got_break = 1
+					break
+				i += 1
+			i = default_
+
+		if i == end and got_break == 0:
+				print_err("** No 'break' statement found for 'default' clause on line {}".format(index_lines[default_] + 1))
+				print(lines[default_])
+				make_arrow(lines[default_])
+
+
+		i += 1
+
+"""  END OF 'SWITCH' STATEMENT """
 
 
 """ FUNCTIONS RELATED """
@@ -331,25 +392,6 @@ def functions_():
 """ END FUNCTIONS RELATED """
 
 
-""" SWITCH STATEMENT """
-
-def switch_(i):
-	#Check if opening brace
-	if re.search(r'({)$', lines[i]):
-		pass
-
-
-""" SWITCH STATEMENT """
-
-
-""" VARIABLES """
-
-def variables():
-	if re.search(r' '):
-		pass
-
-""" VARIABLES """
-
 """ MISCELLANEOUS """
 
 def indent_code():
@@ -358,7 +400,6 @@ def indent_code():
 	for i in range(no_of_lines):
 		spaces = re.search(r'\t*', lines[i])
 		indent_.append(spaces.span()[1] - spaces.span()[0])
-	print(indent_[:10])
 
 def make_arrow(st):
 		#Print required line with a marker
