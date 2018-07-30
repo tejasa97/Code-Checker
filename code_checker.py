@@ -319,14 +319,13 @@ def functions_():
 
 """ MISCELLANEOUS """
 
-# def line_no(number):
-# 	return str(crayons.cyan(number))
 
 def make_arrow(st):
 		#Print required line with a marker
 		st = re.sub(r'\S', ' ', st)
 		# print(crayons.green(st + '^', bold = True))
 		print(st + '^')
+		
 def match_paranthesis(i, c, clause = None):
 	incoming = i - c
 
