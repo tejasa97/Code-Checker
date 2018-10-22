@@ -1,2 +1,2 @@
 # Code-Checker
-A python script that checks whether C device drivers adhere to a set of Linux driver standards.
+A python script that checks the compliance of a particular set of C device drivers to a set of Linux driver standards.
