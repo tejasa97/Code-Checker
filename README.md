@@ -3,8 +3,8 @@ A python script that checks the compliance of a particular set of C device drive
 
 Linux driver standards format:
 
-<img src = images/rule1.png height = 500>
+<img src = images/rule1.png height = 600>
 
-<img src = images/rule2.png height = 500>
+<img src = images/rule2.png height = 600>
 
-<img src = images/rule3.png height = 500>
+<img src = images/rule3.png height = 600>
