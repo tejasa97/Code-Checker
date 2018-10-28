@@ -321,7 +321,7 @@ def switch_(i):
 	if_for_while_do(i, 'switch')
 	start = i
 	got_break = 0
-	end =match_paranthesis(i, 0) + start
+	end = match_paranthesis(i, 0) + start
 	i += 1
 
 	while  i <= end:
