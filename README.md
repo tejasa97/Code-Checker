@@ -11,8 +11,8 @@ A snippet of the Linux driver standards:
 
 Output with no file specified, i.e: all files in folder **programs** are checked.
 
-<img src = images/result.png height = 500>
+<img src = images/result1.png height = 700>
 
 Output with particular file specified via command line.
 
-<img src = images/result2.png height = 500>
+<img src = images/result2.png height = 100>
