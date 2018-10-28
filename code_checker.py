@@ -396,6 +396,7 @@ if __name__ == "__main__":
 	if len(sys.argv) >= 2:
 		files.append(sys.argv[1])
 	else:
+		os.chdir('programs/')
 		files = os.listdir()
 	if len(files)>1:
 		print_err(">>> Checking all programs in folder...", color = 'yellow')
