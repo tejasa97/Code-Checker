@@ -9,13 +9,13 @@ A snippet of the Linux driver standards:
 
 <img src = images/rule3.png height = 600>
 
-To install dependencies, 
+# Dependencies
 
 ```sh
 pip install -r requirements.txt
 ```
-
-Example output with no file specified, i.e: all files in folder **programs** are checked.
+# Usage
+If no file is specified as argument, all files in folder **programs** are checked.
 
 ```sh
 python code_checker.py
@@ -24,7 +24,7 @@ python code_checker.py
 <img src = images/result1.png height = 700>
 
 
-Example output with particular file specified via command line.
+Also, a particular file can be checked by passing it as an argument.
 
 ```sh
 python code_checker.py programs/a1_b.py
