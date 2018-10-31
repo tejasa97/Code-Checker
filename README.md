@@ -9,10 +9,26 @@ A snippet of the Linux driver standards:
 
 <img src = images/rule3.png height = 600>
 
-Output with no file specified, i.e: all files in folder **programs** are checked.
+To install dependencies, 
+
+```sh
+pip install -r requirements.txt
+```
+
+Example output with no file specified, i.e: all files in folder **programs** are checked.
+
+```sh
+python code_checker.py
+```
 
 <img src = images/result1.png height = 700>
 
-Output with particular file specified via command line.
+
+Example output with particular file specified via command line.
+
+```sh
+python code_checker.py programs/a1_b.py
+```
 
 <img src = images/result2.png height = 100>
+
