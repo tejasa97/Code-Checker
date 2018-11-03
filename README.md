@@ -1,4 +1,4 @@
-# Code-Checker
+# Code-Checker v0.9
 A python script that checks the compliance of a particular set of C device drivers to a set of Linux driver standards.
 
 A snippet of the Linux driver standards:
