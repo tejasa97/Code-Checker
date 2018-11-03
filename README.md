@@ -9,6 +9,9 @@ A snippet of the Linux driver standards:
 
 <img src = images/rule3.png height = 600>
 
+## Note
+Rules from 10.c onwards are yet to be implemented
+
 # Dependencies
 
 ```sh
